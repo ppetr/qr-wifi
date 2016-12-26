@@ -37,11 +37,13 @@ parser = argparse.ArgumentParser(description='Construct a PDF page with WiFi ESS
 parser.add_argument('--essid', required=True)
 parser.add_argument('--password', required=True)
 parser.add_argument('--output', required=True, help="Output PDF file", metavar="FILE.pdf")
+parser.add_argument('--message', help="Custom message to be displayed at the bottom")
 args = parser.parse_args()
 
 essid = args.essid
 password = args.password
 output_pdf = args.output
+message = args.message
 
 centered = ParagraphStyle(name="centered", alignment=TA_CENTER, fontName="Times-Bold", fontSize=24, leading=30)
 
@@ -53,4 +55,7 @@ parts.append(Paragraph(u"ESSID: " + essid, style=centered))
 parts.append(Paragraph(u"Password: " + password, style=centered))
 parts.append(Spacer(width=0, height=36))
 parts.append(BarCode(qr.QrCodeWidget(qr_text)))
+if message:
+    parts.append(Spacer(width=0, height=36))
+    parts.append(Paragraph(message, style=centered))
 doc.build(parts)
