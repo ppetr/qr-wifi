@@ -33,25 +33,25 @@ class BarCode(Flowable):
         d.add(self.widget)
         renderPDF.draw(d, self.canv, 0, 0)
 
-parser = argparse.ArgumentParser(description='Construct a PDF page with WiFi ESSID, password and QR code.')
-parser.add_argument('--essid', required=True)
+parser = argparse.ArgumentParser(description='Construct a PDF page with WiFi SSID, password and QR code.')
+parser.add_argument('--ssid', required=True)
 parser.add_argument('--password', required=True)
 parser.add_argument('--output', required=True, help="Output PDF file", metavar="FILE.pdf")
 parser.add_argument('--message', help="Custom message to be displayed at the bottom")
 args = parser.parse_args()
 
-essid = args.essid
+ssid = args.ssid
 password = args.password
 output_pdf = args.output
 message = args.message
 
 centered = ParagraphStyle(name="centered", alignment=TA_CENTER, fontName="Times-Bold", fontSize=24, leading=30)
 
-qr_text = "WIFI:S:{0};T:WPA2;P:{1};;".format(essid, password)
+qr_text = "WIFI:S:{0};T:WPA2;P:{1};;".format(ssid, password)
 
 doc = SimpleDocTemplate(output_pdf, pagesize=A5)
 parts = []
-parts.append(Paragraph(u"ESSID: " + essid, style=centered))
+parts.append(Paragraph(u"SSID: " + ssid, style=centered))
 parts.append(Paragraph(u"Password: " + password, style=centered))
 parts.append(Spacer(width=0, height=36))
 parts.append(BarCode(qr.QrCodeWidget(qr_text)))
